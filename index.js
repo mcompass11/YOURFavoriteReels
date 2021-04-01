@@ -1,62 +1,54 @@
-const express = require('express');
-    morgan = require('morgan');
+const express = require('express'),
+    morgan = require('morgan'),
+    bodyParser =require('body-parser'),
+    uuid = require('uuid');
 
 const app = express();
 
-let topMovies = [
-    {
-        title: 'Anchorman',
-        genre: 'comedy'
-    },
-    {
-        title: 'The Dark Knight',
-        genre: 'action'
-    },
-    {
-        title: 'The Avengers: Infinity War',
-        genre: 'action'
-    },
-    {
-        title: 'The Bourne Identity',
-        genre: 'action'
-    },
-    {
-        title: 'The Bourne Supremacy',
-        genre: 'action'
-    },
-    {
-        title: 'The Bourne Ultimatum',
-        genre: 'action'
-    },
-    {
-        title: 'Coming to America',
-        genre: 'action'
-    },
-    {
-        title: 'Casino Royale',
-        genre: 'action'
-    },
-    {
-        title: 'Bowfinger',
-        genre: 'comedy'
-    },
-    {
-        title: 'Avatar',
-        genre: 'sci-fi'
-    }
-];
+app.use(bodyParser.json());
 
 app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-//GET requests
-app.get('/movies', (req, res) => {
-    res.json(topMovies);
-});
-
 app.get('/', (req, res) => {
     res.send('Welcome to movie gallery!');
+});
+
+app.get('/movies', (req, res) => {
+    res.json('Gets a list of all movies');
+});
+
+app.get('/movies/name', (req, res) => {
+    res.json('Gets data about movie');
+});
+
+app.get('/genres', (req, res) => {
+    res.json('Gets data on genre');
+});
+
+app.get('/directors', (req, res) => {
+    res.json('Gets data on director by name');
+});
+
+app.post('/users', (req, res) => {
+    res.send('Allows new users to register');
+});
+
+app.put('/users/profile', (req, res) => {
+    res.send('Allow users to update their info');
+});
+
+app.post('/users/movies', (req, res) => {
+    res.send('Allow useers to add movie to their list');
+});
+
+app.delete('/users/movies', (req, res) => {
+    res.send('Allows users to remove movie from their list');
+});
+
+app.delete('/users', (req, res) => {
+    res.send('Allows user to deregister their account');
 });
 
 app.use((err, req, res, next) => {
