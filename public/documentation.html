@@ -17,18 +17,38 @@
 
     <h2>URL Endpoints</h2>
     <div>
-        <p>Request: Get a list of all movies URL: /movies Repsonse: A JSON holding data of all movies </p>
-        <p>Request: Get data about movie by title URL: /movies/name Repsonse: A JSON holding data on specific movie </p>
-        <p>Request: Get data on specific genre URL: /genres Repsonse: A text message of description of genre </p>
-        <p>Request: Get data on director by name URL: /directors Repsonse: A text message of description of director</p>
-        <p>Request: Allow users to register URL: /users Repsonse: A JSON holding data on added user</p>
-        <p>Request: Allow users to update their info URL: /users/profile Repsonse: A text message indicating user info
-            updated </p>
-        <p>Request: Allow users to add movie to their list URL: /users/movies Repsonse: A JSON holding data of movies
-            with newly added </p>
-        <p>Request: Allow users to remove movie from their list URL: /users/movies Repsonse: A JSON holding data of
-            movies without newly removed </p>
-        <p>Request: Allow user to deregister URL: /users Repsonse: A text message indicating user removed </p>
+        <p>Request: GET, Opens the default page URL: / Repsonse: A text message stating welcome </p>
+
+        <p>Request: GET, Get a list of all movies URL: /movies Repsonse: A JSON holding data of all movies </p>
+
+        <p>Request: GET, Get data about a movie by title URL: /movies/:Title Repsonse: A JSON holding data on specific
+            movie </p>
+
+        <p>Request: GET, Get data on specific genre URL: /genre/:Name Repsonse: A JSON holding data on a specific genre
+        </p>
+
+        <p>Request: GET, Get data on director by name URL: /director/:Name Repsonse: A JSON with the description of
+            director</p>
+
+        <p>Request: GET, Returns a list of users URL: /users Repsonse: A JSON holding data on all users</p>
+
+        <p>Request: POST, Allows users to register URL: /users Repsonse: Returns JSON of info on the user added,
+            notifies if username
+            is already added</p>
+
+        <p>Request: PUT, Allows user to update their info URL: /users/:Username Response: A JSON with the included
+            changes</p>
+
+        <p>Request: PUT, Allow users to add movie to their list URL: /users/:Username/Movies/:MovieID Repsonse: A JSON
+            holding data of user info
+            with newly added movie</p>
+
+        <p>Request: DELETE, Allow users to remove movie from their list URL: /users/:Username/Movies/:MovieID Repsonse:
+            A JSON holding data of
+            user info with movie removed </p>
+
+        <p>Request: DELETE, Allow user to deregister URL: /users/:Username Repsonse: A text message indicating user
+            removed </p>
     </div>
 
 </body>
