@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const bcrypt = require('bcrypt');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -30,7 +31,11 @@ let userSchema = mongoose.Schema({
     Email: {type: String, required: true},
     Birthday: Date,
     FavoriteMovies: [{type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
-})
+});
+
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.Password);
+}
 
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);

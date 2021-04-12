@@ -15,6 +15,8 @@ const Users = Models.User;
 const passport = require('passport');
 require('./passport');
 
+const{ check, validationResult} = require('express-validator');
+
 app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
@@ -89,7 +91,20 @@ app.get('/users', passport.authenticate('jwt', {
 }); //returns list of users
 
 app.post('/users', passport.authenticate('jwt', {
-    session: false}), (req, res) => {
+    session: false}),
+    [
+        check('Username', 'Username is required').isLength({min: 5}),
+        check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+        check('Password', 'Password is required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ],
+    (req, res) => {
+
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+        }
+    let hashedPassword = Users.hashedPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username}) //searches for existing username
     .then((user) => {
         if (user) {
@@ -97,7 +112,7 @@ app.post('/users', passport.authenticate('jwt', {
         } else {
             Users.create({
                 Username: req.body.Username,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             })
@@ -196,6 +211,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Oops! Something apparently broke...');
 });
 
-app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+    console.log('Listening on Port ' + port);
 });

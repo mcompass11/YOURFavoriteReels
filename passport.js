@@ -19,12 +19,17 @@ Users.findOne({ Username: username }, (error, user) => {
     }
     if (!user) {
         console.log('incorrect username');
-        return callback(null, false, {message: 'Incorrect username or password.'});
+        return callback(null, false, {message: 'Incorrect username.'});
     }
+    if (!user.validatePassword(password)) {
+        console.log('incorrect password');
+        return callback(null, false, {message: 'Incorrect password.'});
+    }
+
     console.log('finished');
     return callback(null, user);
 });
-}));
+})); //hash any password entered by the user when logging in
 
 passport.use(new JWTStrategy ({
 jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
