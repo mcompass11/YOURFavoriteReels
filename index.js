@@ -105,6 +105,7 @@ app.get('/users', passport.authenticate('jwt', {
 
 app.post('/users', passport.authenticate('jwt', {
     session: false}), (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username}) //searches for existing username
     .then((user) => {
         if (user) {
@@ -112,7 +113,7 @@ app.post('/users', passport.authenticate('jwt', {
         } else {
             Users.create({
                 Username: req.body.Username,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             })

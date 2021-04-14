@@ -4,6 +4,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
+const bcrypt = require('bcrypt');
+
 mongoose.connect('mongodb://localhost:27017/test', {
     useNewUrlParser: true, useUnifiedTopology: true
 });
@@ -30,7 +32,15 @@ let userSchema = mongoose.Schema({
     Email: {type: String, required: true},
     Birthday: Date,
     FavoriteMovies: [{type: mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
-})
+});
+
+userSchema.statics.hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+};
+
+userSchema.methods.validatePassword = function(password) {
+    return bcrypt.compareSync(password, this.Password);
+};
 
 let Movie = mongoose.model('Movie', movieSchema);
 let User = mongoose.model('User', userSchema);
