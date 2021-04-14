@@ -9,8 +9,23 @@ const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-// const Genres = Models.Genre;
-// const Directors = Models.Director;
+
+const cors = require('cors');
+
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1){
+            //if origin isn't on listdisplays the following
+            let message = "The CORS policy for this application doesn't allow access from origin " + origin;
+
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 const passport = require('passport');
 require('./passport');
