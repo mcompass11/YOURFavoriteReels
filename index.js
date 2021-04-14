@@ -30,6 +30,8 @@ app.use(cors({
 const passport = require('passport');
 require('./passport');
 
+const { check, validationResult } = require('express-validator');
+
 app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
@@ -103,8 +105,20 @@ app.get('/users', passport.authenticate('jwt', {
         });
 }); //returns list of users
 
-app.post('/users', passport.authenticate('jwt', {
+app.post('/users', [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+], //added some validation logic
+ passport.authenticate('jwt', {
     session: false}), (req, res) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+    
     let hashedPassword = Users.hashedPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username}) //searches for existing username
     .then((user) => {
