@@ -9,7 +9,7 @@ const Users = Models.User;
 //     useNewUrlParser: true, useUnifiedTopology: true
 // });
 
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 let movieSchema = mongoose.Schema({
     Title: {type: String, required: true},
