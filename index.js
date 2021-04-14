@@ -7,8 +7,6 @@ const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
-
 const Movies = Models.Movie;
 const Users = Models.User;
 // const Genres = Models.Genre;
