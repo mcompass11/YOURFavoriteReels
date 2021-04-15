@@ -1,7 +1,7 @@
-const express = require('express'),
-    morgan = require('morgan'),
-    bodyParser =require('body-parser'),
-    uuid = require('uuid');
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser =require('body-parser');
+const uuid = require('uuid');
 
 const app = express();
 const mongoose = require('mongoose');
@@ -116,12 +116,10 @@ app.post('/users', [
 ], //added some validation logic
   (req, res) => {
     let errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-
-    let hashedPassword = Users.hashedPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username}) //searches for existing username
     .then((user) => {
         if (user) {
