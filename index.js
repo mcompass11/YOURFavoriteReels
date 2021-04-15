@@ -155,7 +155,7 @@ app.put('/users/:Username', passport.authenticate('jwt', {
                 Username: req.body.Username,
                 Password: req.body.Password,
                 Email: req.body.Email,
-                Birth: req.body.Birth,
+                Birthday: req.body.Birthday,
             },
         },
         {new: true}, //Makes sure that the updated doc is new
