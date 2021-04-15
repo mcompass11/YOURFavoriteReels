@@ -28,13 +28,13 @@ app.use(cors({
 }));
 
 const passport = require('passport');
-require('./passport');
+require('./passport.js');
 
 const { check, validationResult } = require('express-validator');
 
 app.use(bodyParser.json());
 
-let auth = require('./auth')(app);
+let auth = require('./auth.js')(app);
 
 app.use(morgan('common'));
 
