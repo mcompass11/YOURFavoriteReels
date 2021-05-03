@@ -4,6 +4,9 @@ const bodyParser =require('body-parser');
 const uuid = require('uuid');
 
 const app = express();
+
+app.use(bodyParser.json());
+
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
@@ -32,8 +35,6 @@ require('./passport.js');
 
 const { check, validationResult } = require('express-validator');
 
-app.use(bodyParser.json());
-
 let auth = require('./auth.js')(app);
 
 app.use(morgan('common'));
@@ -41,7 +42,7 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 
 // mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 
 app.get('/', (req, res) => {
