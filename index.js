@@ -41,23 +41,15 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-// mongoose.connect(mongodb://localhost:27017/test", { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect( "mongodb://process.env.CONNECTION_URI", { useNewUrlParser: true, useUnifiedTopology: true
-})
-.then(() => {
-    console.log('Connected!');
-})
-.catch((err) => {
-    console.error('Error connecting to Mongo', err);
-});
+// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 
 app.get('/', (req, res) => {
     res.send('Welcome to movie gallery!');
 }); //default opening page
 
-app.get('/movies', passport.authenticate('jwt', {
-    session: false}), (req, res) => {
+app.get('/movies', (req, res) => {
     Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
