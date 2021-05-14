@@ -125,7 +125,7 @@ app.post('/users', [
     Users.findOne({ Username: req.body.Username}) //searches for existing username
     .then((user) => {
         if (user) {
-            return res.status(400).send(req.body.Username + 'already exists');
+            return res.status(400).send(req.body.Username + ' already exists');
         } else {
             Users.create({
                 Username: req.body.Username,
@@ -146,6 +146,11 @@ app.post('/users', [
         console.error(error);
         res.status(500).send('Error: ' + error);
     });
+
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
 }); //allows new users to register
 
 app.put('/users/:Username',
