@@ -17,8 +17,7 @@ const Users = Models.User;
 
 const cors = require('cors');
 
-let allowedOrigins = ['http://localhost:8080', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:1234', 'https://yourfavoritereels.herokuapp.com/login'];
-
+let allowedOrigins = ['http://localhost:8080', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:1234' ]
 app.use(cors({
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
