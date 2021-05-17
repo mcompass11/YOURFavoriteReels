@@ -31,12 +31,12 @@ app.use(cors({
     }
 }));
 
+require('./auth.js')(app);
+
 const passport = require('passport');
 require('./passport.js');
 
 const { check, validationResult } = require('express-validator');
-
-let auth = require('./auth.js')(app);
 
 app.use(morgan('common'));
 
