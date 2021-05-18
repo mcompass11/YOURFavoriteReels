@@ -1,21 +1,22 @@
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
-const bodyParser =require('body-parser');
+// const bodyParser =require('body-parser');
 const uuid = require('uuid');
+const mongoose = require('mongoose');
 
 require('dotenv').config();
 
 const app = express();
 
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-
-const cors = require('cors');
 
 let allowedOrigins = ['http://localhost:8080', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:1234' ]
 app.use(cors({
