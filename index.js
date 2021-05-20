@@ -18,7 +18,7 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = ['http://localhost:8080', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:1234' ]
+let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com']
 app.use(cors({
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
