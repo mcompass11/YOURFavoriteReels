@@ -1,7 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
-// const bodyParser =require('body-parser');
+const bodyParser =require('body-parser');
 const uuid = require('uuid');
 const mongoose = require('mongoose');
 
@@ -9,16 +9,16 @@ require('dotenv').config();
 
 const app = express();
 
-// app.use(bodyParser.json());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(bodyParser.json());
+// app.use(express.json());
+// app.use(express.urlencoded({extended: true}));
 
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com']
+let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:8080']
 app.use(cors({
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
@@ -43,8 +43,8 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-// mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+//mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 
 app.get('/', (req, res) => {
