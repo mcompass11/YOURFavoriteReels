@@ -18,7 +18,8 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:8080']
+let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com', 'http://localhost:8080'];
+
 app.use(cors({
     origin: (origin, callback) => {
         if(!origin) return callback(null, true);
@@ -123,19 +124,17 @@ app.post('/users', [
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username}) //searches for existing username
-    .then((user) => {
-        if (user) {
-            return res.status(400).send(req.body.Username + ' already exists');
-        } else {
-            Users.create({
+        .then((user) => {
+            if (user) {
+                return res.status(400).send(req.body.Username + ' already exists');
+            } else {
+                Users.create({
                 Username: req.body.Username,
                 Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             })
-            .then((user) => {
-                res.status(201).json(user);
-            })
+            .then((user) => {res.status(201).json(user) })
             .catch((error) => {
                 console.error(error);
                 res.status(500).send('Error: ' + error);
@@ -243,3 +242,8 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0' , () => {
     console.log('Listening on Port ' + port);
 });
+
+// mongoimport --uri mongodb+srv://mcompass11:Sept_01_2020@monkendrickdb.vsqnr.mongodb.net/MonkendrickDB --collection movies --type json --file movies.json
+// mongoimport --uri mongodb+srv://mcompass11:Sept_01_2020@monkendrickdb.vsqnr.mongodb.net/MonkendrickDB --collection users --type json --file users.json
+
+// mongo "mongodb+srv://monkendrickdb.vsqnr.mongodb.net/MonkendrickDB" --username mcompass11
