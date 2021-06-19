@@ -99,9 +99,9 @@ app.get('/director/:Name', passport.authenticate('jwt', {
     });
 }); //returns data on director by name
 
-app.get('/users', passport.authenticate('jwt', {
+app.get('/user/:Username', passport.authenticate('jwt', {
     session: false}), function (req, res) {
-    Users.find()
+    Users.findOne({ Username: req.body.Username})
         .then(function (users) {
             res.status(201).json(users);
         })
@@ -111,7 +111,7 @@ app.get('/users', passport.authenticate('jwt', {
         });
 }); //returns list of users
 
-app.post('/users', [
+app.post('/user', [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
@@ -147,7 +147,7 @@ app.post('/users', [
     });
 }); //allows new users to register
 
-app.put('/users/:Username',
+app.put('/user/:Username',
 [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
@@ -181,7 +181,7 @@ app.put('/users/:Username',
         });
 }); //allows users to update their user info
 
-app.put('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
+app.put('/user/:Username/Movies/:MovieID', passport.authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
@@ -199,7 +199,7 @@ app.put('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
         });
 }); //allows user to add a movie to their list
 
-app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
+app.delete('/user/:Username/Movies/:MovieID', passport.authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
@@ -217,7 +217,7 @@ app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
         });
 }); //allows user to remove movie from their list
 
-app.delete('/users/:Username', passport.authenticate('jwt', {
+app.delete('/user/:Username', passport.authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndRemove({Username: req.params.Username})
     .then((user) => {
