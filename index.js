@@ -101,7 +101,7 @@ app.get('/director/:Name', passport.authenticate('jwt', {
 
 app.get('/user/:Username', passport.authenticate('jwt', {
     session: false}), function (req, res) {
-    Users.findOne({ Username: req.body.Username})
+    Users.findOne({ 'Username': req.params.Username})
         .then(function (users) {
             res.status(201).json(users);
         })
@@ -109,7 +109,7 @@ app.get('/user/:Username', passport.authenticate('jwt', {
             console.error(err);
             res.status(500).send('Error: ' + err);
         });
-}); //returns list of users
+}); //returns user
 
 app.post('/user', [
     check('Username', 'Username is required').isLength({min: 5}),
