@@ -99,7 +99,7 @@ app.get('/director/:Name', passport.authenticate('jwt', {
     });
 }); //returns data on director by name
 
-app.get('/user/:Username', passport.authenticate('jwt', {
+app.get('/user', passport.authenticate('jwt', {
     session: false}), function (req, res) {
     Users.findOne({ 'Username': req.params.Username})
         .then(function (users) {
