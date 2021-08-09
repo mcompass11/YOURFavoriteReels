@@ -99,7 +99,7 @@ app.get('/director/:Name', passport.authenticate('jwt', {
     });
 }); //returns data on director by name
 
-app.get('/users/:Username', passport.authenticate('jwt', {
+app.get('/users', passport.authenticate('jwt', {
     session: false}), function (req, res) {
     Users.findOne({ Username: req.params.Username})
         .then(function (users) {
@@ -147,7 +147,7 @@ app.post('/users', [
     });
 }); //allows new users to register
 
-app.put('/users/:Username',
+app.put('/users',
 [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
