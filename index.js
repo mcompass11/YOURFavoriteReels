@@ -100,12 +100,12 @@ app.get('/director/:Name', passport.authenticate('jwt', {
 }); //returns data on director by name
 
 app.get('/users', passport.authenticate('jwt', {
-    session: false}), function (req, res) {
-    Users.findOne({ Username: req.params.Username})
-        .then(function (users) {
+    session: false}), (req, res) => {
+    Users.find()
+        .then((users) => {
             res.status(201).json(users);
         })
-        .catch(function (err) {
+        .catch((err) => {
             console.error(err);
             res.status(500).send('Error: ' + err);
         });
