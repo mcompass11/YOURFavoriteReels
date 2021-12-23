@@ -100,9 +100,9 @@ app.get('/director/:Name', passport.authenticate('jwt', {
 }); //returns data on director by name
 
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Users.find()
-        .then((users) => {
-            res.status(201).json(users);
+    Users.findOne({FavoriteMovies: req.params.FavoriteMovies})
+        .then((user) => {
+            res.json(user);
         })
         .catch((err) => {
             console.error(err);
