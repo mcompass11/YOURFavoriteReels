@@ -99,7 +99,18 @@ app.get('/director/:Name', passport.authenticate('jwt', {
     });
 }); //returns data on director by name
 
-app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/users', passport.authenticate('jwt', {session: false}),  (req, res) => {
+  Users.find()
+      .then((users) => {
+          res.status(201).json(users);
+      })
+      .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' +err);
+      });
+}); //returns all users list
+
+app.get('/user', passport.authenticate('jwt', {session: false}), (req, res) => {
     Users.findOne({FavoriteMovies: req.params.FavoriteMovies})
         .then((user) => {
             res.json(user);
@@ -108,7 +119,7 @@ app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => 
             console.error(err);
             res.status(500).send('Error: ' + err);
         });
-}); //returns user
+}); //returns a user
 
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
