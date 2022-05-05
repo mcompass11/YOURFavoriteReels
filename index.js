@@ -100,9 +100,20 @@ app.get('/director/:Name', passport.authenticate('jwt', {
 }); //returns data on director by name
 
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
-    Users.find()
-        .then((users) => {
-            res.status(201).json(users);
+  Users.find()
+      .then((users) => {
+          res.status(201).json(users);
+      })
+      .catch((err) => {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+      });
+}); //returns list of users
+
+app.get('/users/:Username', /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
+    Users.findOne({ Username: req.params.username })
+        .then((user) => {
+            res.status(201).json(user);
         })
         .catch((err) => {
             console.error(err);
@@ -146,7 +157,7 @@ app.post('/users', [
     });
 }); //allows new users to register
 
-app.put('/users',
+app.put('/users/:Username',
 [
     check('Username', 'Username is required').isLength({min: 5}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
@@ -180,12 +191,12 @@ app.put('/users',
         });
 }); //allows users to update their user info
 
-app.put('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
+app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
         {
-            $addToSet: {FavoriteMovies: req.params.MovieID},
+            $push: {FavoriteMovies: req.params.MovieID},
         },
         {new:true},
         (err, updatedUser) => {
@@ -198,7 +209,7 @@ app.put('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
         });
 }); //allows user to add a movie to their list
 
-app.delete('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', {
+app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
