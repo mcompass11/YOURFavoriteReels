@@ -11,27 +11,31 @@ const app = express();
 
 app.use(bodyParser.json());
 // app.use(express.json());
-// app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true}));
 
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
-let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com/', 'http://localhost:8080', 'http://localhost:4200'];
+//let allowedOrigins = ['http://localhost:1234', 'https://yourfavoritereels.herokuapp.com/', 'http://localhost:8080', 'http://localhost:4200'];
 
 app.use(cors({
-    origin: (origin, callback) => {
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){
-            //if origin isn't on listdisplays the following
-            let message = "The CORS policy for this application doesn't allow access from origin " + origin;
+  origin: '*'
+}
+//   {
+//     origin: (origin, callback) => {
+//         if(!origin) return callback(null, true);
+//         if(allowedOrigins.indexOf(origin) === -1){
+//             //if origin isn't on listdisplays the following
+//             let message = "The CORS policy for this application doesn't allow access from origin " + origin;
 
-            return callback(new Error(message), false);
-        }
-        return callback(null, true);
-    }
-}));
+//             return callback(new Error(message), false);
+//         }
+//         return callback(null, true);
+//     }
+// }
+));
 
 require('./auth.js')(app);
 
@@ -110,16 +114,16 @@ app.get('/users', /*passport.authenticate('jwt', {session: false}),*/ (req, res)
       });
 }); //returns list of users
 
-// app.get('/users/:Username', /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
-//     Users.findOne({ Username: req.params.username })
-//         .then((user) => {
-//             res.status(201).json(user);
-//         })
-//         .catch((err) => {
-//             console.error(err);
-//             res.status(500).send('Error: ' + err);
-//         });
-// }); //returns user
+app.get('/users/:Username', /*passport.authenticate('jwt', {session: false}),*/ (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+        .then((user) => {
+            res.status(201).json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+ }); //returns user
 
 app.post('/users', [
     check('Username', 'Username is required').isLength({min: 5}),
