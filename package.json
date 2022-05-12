@@ -16,10 +16,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "eslint": "^7.22.0"
+    "eslint": "^7.22.0",
+    "jsdoc": "^3.6.10"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "name": "movie_api",
   "version": "1.0.0",
