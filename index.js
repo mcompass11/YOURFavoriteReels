@@ -35,7 +35,8 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-//mongoose.connect('mongodb://localhost:27017/test', { useNewUrlParser: true, useUnifiedTopology: true});
+// mongoose.connect('mongodb+srv://mcompass11:March_22_2013@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
+//   { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 
@@ -44,7 +45,7 @@ mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifie
  * @method GET
  * @returns {string}
  */
-app.get('/', (req, res) => {
+app.get('/', (res) => {
     res.send('Welcome to movie gallery!');
 });
 
