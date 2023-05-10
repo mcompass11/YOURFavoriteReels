@@ -35,7 +35,7 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-// mongoose.connect('mongodb+srv://mcompass11:March_22_2013@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
+// mongoose.connect('mongodb+srv://mcompass11:March_22_2023@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
 //   { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
