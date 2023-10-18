@@ -1,8 +1,6 @@
-const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser =require('body-parser');
-const uuid = require('uuid');
 const mongoose = require('mongoose');
 
 require('dotenv').config();
@@ -13,11 +11,7 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({extended: true}));
 
 
-const Models = require('./models.js');
-
-const Movies = Models.Movie;
-const Users = Models.User;
-
+const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'https://heroku.com'];
@@ -44,7 +38,9 @@ require('./auth.js')(app);
 const passport = require('passport');
 require('./passport.js');
 
-const { check, validationResult } = require('express-validator');
+const Models = require('./models.js');
+const Movies = Models.Movie;
+const Users = Models.User;
 
 app.use(morgan('common'));
 
