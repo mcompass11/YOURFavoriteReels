@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended: true}));
 const { check, validationResult } = require('express-validator');
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://heroku.com'];
+let allowedOrigins = ['http://localhost:8080', 'https://heroku.com', 'https://herokuapp.com'];
 
 app.use(cors({
     origin: (origin, callback) => {
