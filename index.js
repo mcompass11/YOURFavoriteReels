@@ -1,20 +1,20 @@
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser =require('body-parser');
-const mongoose = require('mongoose');
+import express, { urlencoded } from 'express';
+import morgan from 'morgan';
+import { json } from 'body-parser';
+import { connect } from 'mongoose';
 
 require('dotenv').config();
 
 const app = express();
 
-app.use(bodyParser.json());
-app.use(express.urlencoded({extended: true}));
+app.use(json());
+app.use(urlencoded({extended: true}));
 
 
-const { check, validationResult } = require('express-validator');
+import { check, validationResult } from 'express-validator';
 
-const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'https://heroku.com', 'https://herokuapp.com'];
+import cors from 'cors';
+let allowedOrigins = ['http://localhost:8080', 'https://heroku.com'];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -35,12 +35,12 @@ app.use(cors({
 
 require('./auth.js')(app);
 
-const passport = require('passport');
-require('./passport.js');
+import { authenticate } from 'passport';
+import './passport.js';
 
-const Models = require('./models.js');
-const Movies = Models.Movie;
-const Users = Models.User;
+import { Movie, User } from './models.js';
+const Movies = Movie;
+const Users = User;
 
 app.use(morgan('common'));
 
@@ -48,7 +48,7 @@ app.use(express.static('public'));
 
 // mongoose.connect('mongodb+srv://mcompass11:March_22_2023@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
 //   { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 
 /**
@@ -66,7 +66,7 @@ app.get('/', (res) => {
  * @param {string} endpoint - endpoint url/movies
  * @requires authentication JWT
  */
-app.get('/movies', passport.authenticate('jwt', {session: false}),  (req, res) => {
+app.get('/movies', authenticate('jwt', {session: false}),  (req, res) => {
     Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
@@ -83,7 +83,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}),  (req, res) =
  * @param {string} endpoint - endpoint url/movies/:Title
  * @requires authentication JWT
  */
-app.get('/movies/:Title', passport.authenticate('jwt', {
+app.get('/movies/:Title', authenticate('jwt', {
     session: false}), (req, res) => {
     Movies.findOne({ Title: req.params.Title})
     .then((movie) => {
@@ -101,7 +101,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', {
  * @param {string} endpoint - endpoint url/genre/:Name
  * @requires authentication JWT
  */
-app.get('/genre/:Name', passport.authenticate('jwt', {
+app.get('/genre/:Name', authenticate('jwt', {
     session: false}), (req, res) => {
     Movies.findOne({'Genre.Name': req.params.Name})
     .then((movies) => {
@@ -119,7 +119,7 @@ app.get('/genre/:Name', passport.authenticate('jwt', {
  * @param {string} endpoint - endpoint url/director/:Name
  * @requires authentication JWT
  */
-app.get('/director/:Name', passport.authenticate('jwt', {
+app.get('/director/:Name', authenticate('jwt', {
     session: false}), (req, res) => {
     Movies.findOne({'Director.Name': req.params.Name})
     .then((director) => {
@@ -231,7 +231,7 @@ app.put('/users/:Username',
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
 ], //added some validation logic
- passport.authenticate('jwt', {
+ authenticate('jwt', {
     session: false}), (req, res) => {
         let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -267,7 +267,7 @@ app.put('/users/:Username',
  * @returns {string} - returns success/error message
  * @requires authentication JWT
  */
-app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
+app.post('/users/:Username/movies/:MovieID', authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
@@ -294,7 +294,7 @@ app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
  * @returns {string} - returns success/error message
  * @requires authentication JWT
  */
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
+app.delete('/users/:Username/movies/:MovieID', authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndUpdate(
         {Username: req.params.Username},
@@ -321,7 +321,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
  * @returns {string} - returns success/error message
  * @requires authentication JWT
  */
-app.delete('/users/:Username', passport.authenticate('jwt', {
+app.delete('/users/:Username', authenticate('jwt', {
     session: false}), (req, res) => {
     Users.findOneAndRemove({Username: req.params.Username})
     .then((user) => {
