@@ -25,9 +25,7 @@ app.use(cors({
         return callback(new Error(message ), false);
       }
       return callback(null, true);
-    },
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    }
   }));
 
 // app.use(cors({
@@ -192,7 +190,7 @@ app.post('/users', [
         return res.status(422).json({ errors: errors.array() });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
-    await Users.findOne({ Username: req.body.Username}) //searches for existing username
+    await Users.findOne({ Username: req.body.Username }) //searches for existing username
         .then((user) => {
             if (user) {
                 return res.status(400).send(req.body.Username + ' already exists');
