@@ -1,40 +1,11 @@
 {
-  "dependencies": {
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.18.2",
-    "express-validator": "^6.11.1",
-    "jsonwebtoken": "^9.0.0",
-    "lodash": "^4.17.21",
-    "mongodb": "^5.4.0",
-    "mongoose": "^5.12.3",
-    "morgan": "^1.10.0",
-    "passport": "^0.6.0",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.0",
-    "@types/cors": "^2.8.13",
-    "@types/jsonwebtoken": "^9.0.2",
-    "@types/morgan": "^1.9.4",
-    "@types/passport": "^1.0.12",
-    "@types/passport-jwt": "^3.0.8",
-    "@types/passport-local": "^1.0.35",
-    "@types/uuid": "^9.0.1",
-    "eslint": "^7.22.0",
-    "jsdoc": "^4.0.2"
-  },
+  "name": "movie_api",
+  "version": "1.0.0",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "doc": "jsdoc -c jsdoc.json"
   },
-  "name": "movie_api",
-  "version": "1.0.0",
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcompass11/YOURFavoriteReels.git"
@@ -45,5 +16,37 @@
     "url": "https://github.com/mcompass11/YOURFavoriteReels/issues"
   },
   "homepage": "https://github.com/mcompass11/YOURFavoriteReels#readme",
-  "description": ""
+  "description": "<h1>YOURFavoriteReels</h1> <p>   This repo is the server-side build of the myFlix repos. Providing users with access   to information about different movies, directors and genres. Users are able to sign   up, update their information as well as create a list of favorites movies. </p>",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongodb": "^5.6.0",
+    "mongoose": "^7.5.2",
+    "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/cors": "^2.8.13",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/morgan": "^1.9.4",
+    "@types/passport": "^1.0.12",
+    "@types/passport-jwt": "^3.0.8",
+    "@types/passport-local": "^1.0.35",
+    "@types/uuid": "^9.0.1",
+    "eslint": "^8.41.0",
+    "jsdoc": "^4.0.2"
+  }
 }

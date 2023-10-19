@@ -38,7 +38,7 @@ require('./auth.js')(app);
 const passport = require('passport');
 require('./passport.js');
 
-const Models = require('./models.js');
+const Models = require('./models');
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -180,8 +180,8 @@ app.post('/users', [
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
-], //added some validation logic
-  async (req, res) => {
+],async (req, res) => {
+    //added some validation logic
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
