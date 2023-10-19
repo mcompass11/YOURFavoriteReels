@@ -46,8 +46,7 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-// mongoose.connect('mongodb+srv://mcompass11:March_22_2023@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
-//   { useNewUrlParser: true, useUnifiedTopology: true });
+
 mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true})
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Error connecting to MongoDB: ', err));
@@ -270,21 +269,23 @@ app.put('/users/:Username',
  * @requires authentication JWT
  */
 app.post('/users/:Username/movies/:MovieID', passport.authenticate('jwt', {
-    session: false}), (req, res) => {
-    Users.findOneAndUpdate(
-        {Username: req.params.Username},
-        {
-            $push: {FavoriteMovies: req.params.MovieID},
-        },
-        {new:true},
-        (err, updatedUser) => {
-            if (err) {
-                console.error(err);
-                res.status(500).send('Error: ' + err);
-            } else {
-                res.json(updatedUser);
-            }
-        });
+    session: false}), async (req, res) => {
+    try {
+        const updatedUser = await Users.findOneAndUpdate(
+            { Username: req.params.Username },
+            { $push: { FavoriteMovies: req.params.MovieID } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            res.status(404).send('User not found');
+        } else {
+            res.json(updatedUser);
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    }
 });
 
 
