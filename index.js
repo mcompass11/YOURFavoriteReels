@@ -25,7 +25,9 @@ app.use(cors({
         return callback(new Error(message ), false);
       }
       return callback(null, true);
-    }
+    },
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
   }));
 
 // app.use(cors({
