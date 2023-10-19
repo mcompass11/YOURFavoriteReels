@@ -46,11 +46,11 @@ app.use(morgan('common'));
 
 app.use(express.static('public'));
 
-mongoose.connect('mongodb+srv://mcompass11:March_22_2023@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true, useUnifiedTopology: true });
-// mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true})
-//   .then(() => console.log('Connected to MongoDB'))
-//   .catch(err => console.error('Error connecting to MongoDB: ', err));
+// mongoose.connect('mongodb+srv://mcompass11:March_22_2023@monkendrickdb.vsqnr.mongodb.net/?retryWrites=true&w=majority',
+//   { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true})
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('Error connecting to MongoDB: ', err));
 
 
 /**
